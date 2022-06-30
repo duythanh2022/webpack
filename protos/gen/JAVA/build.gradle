@@ -1,0 +1,65 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+def tag = ''
+def branchName = ''
+def buildVersion = branchName ? branchName : '20220225'
+
+group = 'com.santoblockchainlabs'
+version = tag ? "${tag}-RELEASE" : "${buildVersion}-SNAPSHOT"
+sourceCompatibility = '8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.10.0'
+    implementation 'io.grpc:grpc-all:1.44.0'
+    implementation group: 'javax.annotation', name: 'javax.annotation-api', version: '1.2-b02'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Manifest-Version': tag ? "${tag}-RELEASE" : "${buildVersion}-SNAPSHOT",
+                'Build-Timestamp': new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
+                // 'Build-Revision' : versioning.info.commit,
+                'Created-By': "Gradle ${gradle.gradleVersion}",
+                'Build-Jdk': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+                'Build-OS': "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
+        )
+    }
+}
+
+task sourcesJar(type: Jar) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar) {
+    archiveClassifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+publishing {
+    repositories {
+        maven {
+            name 'S3-MAVEN-REPO'
+            url version.endsWith('-RELEASE') ? "s3://sbl-maven-repo/releases" : "s3://sbl-maven-repo/snapshots"
+            credentials(AwsCredentials) {
+                accessKey "AKIAVVNKRTP43Q2ETPEF"
+                secretKey "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"
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+}

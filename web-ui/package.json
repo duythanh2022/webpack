@@ -1,0 +1,36 @@
+{
+  "name": "santopay-ui",
+  "scripts": {
+    "build:customer": "cross-env NODE_ENV=production APP=customer run-s clean build:webpack",
+    "build:operator": "cross-env NODE_ENV=production APP=operator run-s clean build:webpack",
+    "build:webpack": "webpack --config webpack/webpack.config.ts",
+    "bundle-analyzer": "MODE=analyze webpack --config webpack/webpack.config.ts",
+    "clean": "lerna run --concurrency 2 clean",
+    "clean-husky": "cd .. && rimraf .husky",
+    "create-hook": "cd .. && husky add .husky/pre-commit \"cd web-ui && npx lerna run --concurrency 1 --stream precommit --since HEAD --exclude-dependents\"",
+    "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "husky-install": "cd .. && husky install",
+    "lint": "lerna run --concurrency 2 lint",
+    "prepare": "yarn clean-husky && yarn husky-install && yarn create-hook",
+    "start:customer": "cross-env NODE_ENV=development APP=customer run-p ts-compile-watch webpack-dev-server",
+    "start:operator": "cross-env NODE_ENV=development APP=operator run-p ts-compile-watch webpack-dev-server",
+    "test": "jest",
+    "ts-compile-watch": "tsc -p tsconfig.json --noEmit --watch",
+    "webpack-dev-server": "webpack-dev-server --config webpack/webpack.config.ts"
+  },
+  "devDependencies": {
+    "husky": "^7.0.4",
+    "lerna": "^4.0.0",
+    "rimraf": "^3.0.2"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}

@@ -1,0 +1,423 @@
+/**
+  Author: Hung Hoang
+  Created date: 04-March-2022
+  Crypto.proto includes CryptoRequest, CryptoResponse messages and CryptoService service to get the latest crypto price
+  from a specific reputed website.
+ */
+
+syntax = "proto3";
+
+package com.santoblockchainlabs.protobuf.cms.v1.crypto;
+option java_multiple_files = true;
+option java_package = "com.santoblockchainlabs.protobuf.cms.v1.crypto";
+
+service CryptoService {
+
+  // Get crypto price from a specific website.
+  rpc getCryptoPrice(CryptoRequest) returns (CryptoResponse) {}
+}
+
+/**
+  Request to get the latest crypto price from a specific reputed website.
+  - currencySource: website is used for getting crypto price, ex: blockchain.com, coinmarketcap.com, ...
+  - inputCryptoAbbrev: input crypto abbreviation to get price, ex: BTC (stand for Bitcoin), ETH (stand for Ethereum), ...
+  - outputFiatCurrencyAbbrev: expected output fiat currency abbreviation ex: USD (stand for United States Dollar), ...
+ */
+message CryptoRequest {
+  CurrencySource currencySource = 1;
+  CryptoAbbreviation inputCryptoAbbrev = 2;
+  FiatCurrencyAbbreviation outputFiatCurrencyAbbrev = 3;
+}
+
+/**
+  Response includes the latest crypto price from a specific reputed website.
+  - currencyType: fiat currency/ crypto.
+  - cryptoAbbrev: crypto abbreviation ex: BTC (stand for Bitcoin), ETH (stand for Ethereum), ...
+  - fiatCurrencyAbbrev: fiat currency abbreviation ex: USD (stand for United States Dollar), ...
+  - currencySource: reputed website is used for getting crypto price, ex: blockchain.com, coinmarketcap.com, ...
+  - price: latest price from currencySource.
+  - currencySourceTime: getting crypto price time in milliseconds.
+ */
+message CryptoResponse {
+  CurrencyType currencyType = 1;
+  CryptoAbbreviation cryptoAbbrev = 2;
+  FiatCurrencyAbbreviation fiatCurrencyAbbrev = 3;
+  CurrencySource currencySource = 4;
+  double price = 5;
+  int64 currencySourceTime = 6;
+}
+
+/**
+  Define currency type.
+ */
+enum CurrencyType {
+  CURRENCY_TYPE_UNKNOWN = 0;
+  FIAT = 1;
+  CRYPTO = 2;
+}
+
+/**
+  Define crypto full name.
+ */
+enum Crypto {
+  CRYPTO_UNKNOWN = 0;
+  BITCOIN = 1;
+  ETHEREUM = 2;
+}
+
+/**
+  Define crypto abbreviation.
+ */
+enum CryptoAbbreviation {
+  CRYPTO_ABBREV_UNKNOWN = 0;
+  BTC = 1;
+  ETH = 2;
+}
+
+/**
+  Define currency source which is a specific reputed website.
+ */
+enum CurrencySource {
+  CURRENCY_SOURCE_UNKNOWN = 0;
+  BLOCKCHAIN = 1;
+  COINMARKETCAP = 2;
+}
+
+/**
+  Define fiat currency abbreviation.
+ */
+enum FiatCurrencyAbbreviation {
+  FIAT_CURRENCY_ABBREV_UNKNOWN = 0;
+  AED = 1;
+  AFN = 2;
+  ALL = 3;
+  AMD = 4;
+  ANG = 5;
+  AOA = 6;
+  ARS = 7;
+  AUD = 8;
+  AWG = 9;
+  AZN = 10;
+  BAM = 11;
+  BBD = 12;
+  BDT = 13;
+  BGN = 14;
+  BHD = 15;
+  BIF = 16;
+  BMD = 17;
+  BND = 18;
+  BOB = 19;
+  BRL = 20;
+  BSD = 21;
+  BTN = 22;
+  BWP = 23;
+  BYN = 24;
+  BZD = 25;
+  CAD = 26;
+  CDF = 27;
+  CHF = 28;
+  CLP = 29;
+  CNY = 30;
+  COP = 31;
+  CRC = 32;
+  CUC = 33;
+  CUP = 34;
+  CVE = 35;
+  CZK = 36;
+  DJF = 37;
+  DKK = 38;
+  DOP = 39;
+  DZD = 40;
+  EGP = 41;
+  ERN = 42;
+  ETB = 43;
+  EUR = 44;
+  FJD = 45;
+  FKP = 46;
+  GBP = 47;
+  GEL = 48;
+  GGP = 49;
+  GHS = 50;
+  GIP = 51;
+  GMD = 52;
+  GNF = 53;
+  GTQ = 54;
+  GYD = 55;
+  HKD = 56;
+  HNL = 57;
+  HRK = 58;
+  HTG = 59;
+  HUF = 60;
+  IDR = 61;
+  ILS = 62;
+  IMP = 63;
+  INR = 64;
+  IQD = 65;
+  IRR = 66;
+  ISK = 67;
+  JEP = 68;
+  JMD = 69;
+  JOD = 70;
+  JPY = 71;
+  KES = 72;
+  KGS = 73;
+  KHR = 74;
+  KMF = 75;
+  KPW = 76;
+  KRW = 77;
+  KWD = 78;
+  KYD = 79;
+  KZT = 80;
+  LAK = 81;
+  LBP = 82;
+  LKR = 83;
+  LRD = 84;
+  LSL = 85;
+  LYD = 86;
+  MAD = 87;
+  MDL = 88;
+  MGA = 89;
+  MKD = 90;
+  MMK = 91;
+  MNT = 92;
+  MOP = 93;
+  MRU = 94;
+  MUR = 95;
+  MVR = 96;
+  MWK = 97;
+  MXN = 98;
+  MYR = 99;
+  MZN = 100;
+  NAD = 101;
+  NGN = 102;
+  NIO = 103;
+  NOK = 104;
+  NPR = 105;
+  NZD = 106;
+  OMR = 107;
+  PAB = 108;
+  PEN = 109;
+  PGK = 110;
+  PHP = 111;
+  PKR = 112;
+  PLN = 113;
+  PYG = 114;
+  QAR = 115;
+  RON = 116;
+  RSD = 117;
+  RUB = 118;
+  RWF = 119;
+  SAR = 120;
+  SBD = 121;
+  SCR = 122;
+  SDG = 123;
+  SEK = 124;
+  SGD = 125;
+  SHP = 126;
+  SLL = 127;
+  SOS = 128;
+  SPL = 129;
+  SRD = 130;
+  STN = 131;
+  SVC = 132;
+  SYP = 133;
+  SZL = 134;
+  THB = 135;
+  TJS = 136;
+  TMT = 137;
+  TND = 138;
+  TOP = 139;
+  TRY = 140;
+  TTD = 141;
+  TVD = 142;
+  TWD = 143;
+  TZS = 144;
+  UAH = 145;
+  UGX = 146;
+  USD = 147;
+  UYU = 148;
+  UZS = 149;
+  VEF = 150;
+  VND = 151;
+  VUV = 152;
+  WST = 153;
+  XAF = 154;
+  XCD = 155;
+  XDR = 156;
+  XOF = 157;
+  XPF = 158;
+  YER = 159;
+  ZAR = 160;
+  ZMW = 161;
+  ZWD = 162;
+}
+
+
+/**
+  Define fiat currency.
+ */
+enum FiatCurrency {
+  FIAT_CURRENCY_UNKNOWN = 0;
+  UNITED_ARAB_EMIRATES_DIRHAM = 1;
+  AFGHANISTAN_AFGHANI = 2;
+  ALBANIA_LEK = 3;
+  ARMENIA_DRAM = 4;
+  NETHERLANDS_ANTILLES_GUILDER = 5;
+  ANGOLA_KWANZA = 6;
+  ARGENTINA_PESO = 7;
+  AUSTRALIA_DOLLAR = 8;
+  ARUBA_GUILDER = 9;
+  AZERBAIJAN_MANAT = 10;
+  BOSNIA_AND_HERZEGOVINA_CONVERTIBLE_MARK = 11;
+  BARBADOS_DOLLAR = 12;
+  BANGLADESH_TAKA = 13;
+  BULGARIA_LEV = 14;
+  BAHRAIN_DINAR = 15;
+  BURUNDI_FRANC = 16;
+  BERMUDA_DOLLAR = 17;
+  BRUNEI_DARUSSALAM_DOLLAR = 18;
+  BOLIVIA_BOLIVIANO = 19;
+  BRAZIL_REAL = 20;
+  BAHAMAS_DOLLAR = 21;
+  BHUTAN_NGULTRUM = 22;
+  BOTSWANA_PULA = 23;
+  BELARUS_RUBLE = 24;
+  BELIZE_DOLLAR = 25;
+  CANADA_DOLLAR = 26;
+  CONGO_KINSHASA_FRANC = 27;
+  SWITZERLAND_FRANC = 28;
+  CHILE_PESO = 29;
+  CHINA_YUAN_RENMINBI = 30;
+  COLOMBIA_PESO = 31;
+  COSTA_RICA_COLON = 32;
+  CUBA_CONVERTIBLE_PESO = 33;
+  CUBA_PESO = 34;
+  CAPE_VERDE_ESCUDO = 35;
+  CZECH_REPUBLIC_KORUNA = 36;
+  DJIBOUTI_FRANC = 37;
+  DENMARK_KRONE = 38;
+  DOMINICAN_REPUBLIC_PESO = 39;
+  ALGERIA_DINAR = 40;
+  EGYPT_POUND = 41;
+  ERITREA_NAKFA = 42;
+  ETHIOPIA_BIRR = 43;
+  EURO_MEMBER_COUNTRIES = 44;
+  FIJI_DOLLAR = 45;
+  FALKLAND_ISLANDS_MALVINAS_POUND = 46;
+  UNITED_KINGDOM_POUND = 47;
+  GEORGIA_LARI = 48;
+  GUERNSEY_POUND = 49;
+  GHANA_CEDI = 50;
+  GIBRALTAR_POUND = 51;
+  GAMBIA_DALASI = 52;
+  GUINEA_FRANC = 53;
+  GUATEMALA_QUETZAL = 54;
+  GUYANA_DOLLAR = 55;
+  HONG_KONG_DOLLAR = 56;
+  HONDURAS_LEMPIRA = 57;
+  CROATIA_KUNA = 58;
+  HAITI_GOURDE = 59;
+  HUNGARY_FORINT = 60;
+  INDONESIA_RUPIAH = 61;
+  ISRAEL_SHEKEL = 62;
+  ISLE_OF_MAN_POUND = 63;
+  INDIA_RUPEE = 64;
+  IRAQ_DINAR = 65;
+  IRAN_RIAL = 66;
+  ICELAND_KRONA = 67;
+  JERSEY_POUND = 68;
+  JAMAICA_DOLLAR = 69;
+  JORDAN_DINAR = 70;
+  JAPAN_YEN = 71;
+  KENYA_SHILLING = 72;
+  KYRGYZSTAN_SOM = 73;
+  CAMBODIA_RIEL = 74;
+  COMORIAN_FRANC = 75;
+  KOREA_NORTH_WON = 76;
+  KOREA_SOUTH_WON = 77;
+  KUWAIT_DINAR = 78;
+  CAYMAN_ISLANDS_DOLLAR = 79;
+  KAZAKHSTAN_TENGE = 80;
+  LAOS_KIP = 81;
+  LEBANON_POUND = 82;
+  SRI_LANKA_RUPEE = 83;
+  LIBERIA_DOLLAR = 84;
+  LESOTHO_LOTI = 85;
+  LIBYA_DINAR = 86;
+  MOROCCO_DIRHAM = 87;
+  MOLDOVA_LEU = 88;
+  MADAGASCAR_ARIARY = 89;
+  MACEDONIA_DENAR = 90;
+  MYANMAR_BURMA_KYAT = 91;
+  MONGOLIA_TUGHRIK = 92;
+  MACAU_PATACA = 93;
+  MAURITANIA_OUGUIYA = 94;
+  MAURITIUS_RUPEE = 95;
+  MMALDIVES_MALDIVE_ISLANDS_RUFIYAA = 96;
+  MALAWI_KWACHA = 97;
+  MEXICO_PESO = 98;
+  MALAYSIA_RINGGIT = 99;
+  MOZAMBIQUE_METICAL = 100;
+  NAMIBIA_DOLLAR = 101;
+  NIGERIA_NAIRA = 102;
+  NICARAGUA_CORDOBA = 103;
+  NORWAY_KRONE = 104;
+  NEPAL_RUPEE = 105;
+  NEW_ZEALAND_DOLLAR = 106;
+  OMAN_RIAL = 107;
+  PANAMA_BALBOA = 108;
+  PERU_SOL = 109;
+  PAPUA_NEW_GUINEA_KINA = 110;
+  PHILIPPINES_PESO = 111;
+  PAKISTAN_RUPEE = 112;
+  POLAND_ZLOTY = 113;
+  PARAGUAY_GUARANI = 114;
+  QATAR_RIYAL = 115;
+  ROMANIA_LEU = 116;
+  SERBIA_DINAR = 117;
+  RUSSIA_RUBLE = 118;
+  RWANDA_FRANC = 119;
+  SAUDI_ARABIA_RIYAL = 120;
+  SOLOMON_ISLANDS_DOLLAR = 121;
+  SEYCHELLES_RUPEE = 122;
+  SUDAN_POUND = 123;
+  SWEDEN_KRONA = 124;
+  SINGAPORE_DOLLAR = 125;
+  SAINT_HELENA_POUND = 126;
+  SIERRA_LEONE_LEONE = 127;
+  SOMALIA_SHILLING = 128;
+  SEBORGA_LUIGINO = 129;
+  SURINAME_DOLLAR = 130;
+  SAO_TOME_AND_PRINCIPE_DOBRA = 131;
+  EL_SALVADOR_COLON = 132;
+  SYRIA_POUND = 133;
+  ESWATINI_LILANGENI = 134;
+  THAILAND_BAHT = 135;
+  TAJIKISTAN_SOMONI = 136;
+  TURKMENISTAN_MANAT = 137;
+  TUNISIA_DINAR = 138;
+  TONGA_PAANGA = 139;
+  TURKEY_LIRA = 140;
+  TRINIDAD_AND_TOBAGO_DOLLAR = 141;
+  TUVALU_DOLLAR = 142;
+  TAIWAN_NEW_DOLLAR = 143;
+  TANZANIA_SHILLING = 144;
+  UKRAINE_HRYVNIA = 145;
+  UGANDA_SHILLING = 146;
+  UNITED_STATES_DOLLAR = 147;
+  URUGUAY_PESO = 148;
+  UZBEKISTAN_SOM = 149;
+  VENEZUELA_BOLIVAR = 150;
+  VIET_NAM_DONG = 151;
+  VANUATU_VATU = 152;
+  SAMOA_TALA = 153;
+  COMMUNAUTE_FINANCIERE_AFRICAINE_BEAC_CFA_FRANC_BEAC = 154;
+  EAST_CARIBBEAN_DOLLAR = 155;
+  INTERNATIONAL_MONETARY_FUND_IMF_SPECIAL_DRAWING_RIGHTS = 156;
+  COMMUNAUTE_FINANCIERE_AFRICAINE_BCEAO_FRANC = 157;
+  COMPTOIRS_FRANCAIS_DU_PACIFIQUE_CFP_FRANC = 158;
+  YEMEN_RIAL = 159;
+  SOUTH_AFRICA_RAND = 160;
+  ZAMBIA_KWACHA = 161;
+  ZIMBABWE_DOLLAR = 162;
+}

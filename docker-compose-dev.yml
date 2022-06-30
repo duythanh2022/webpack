@@ -1,0 +1,28 @@
+version: "3"
+services:
+  mariadb:
+    container_name: "mariadb"
+    image: mariadb/server:10.5
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: "root"
+      MARIADB_DATABASE: "santopay"
+      MARIADB_USER: "santopay"
+      MARIADB_PASSWORD: "santopay"
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+  envoy:
+    build:
+      context: ./envoy-proxy
+      dockerfile: Dockerfile
+    restart: always
+    extra_hosts:
+      - "santopay_service:127.0.0.1"
+    ports:
+      - "8080:8080"
+      - "9901:9901"
+
+volumes:
+  db_data:

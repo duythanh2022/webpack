@@ -1,0 +1,136 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "commonjs":true,
+    "es2020":true,
+    "jest": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:css-modules/recommended"
+  ],
+  "plugins": [
+    "react-hooks",
+    "@typescript-eslint",
+    "simple-import-sort",
+    "css-modules"
+  ],
+  "rules": {
+    "react/prop-types": 0,
+    "react/jsx-indent": "off",
+    "react/display-name": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-console": "error",
+    "standard/computed-property-even-spacing": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "no-unused-vars": ["error", { "args": "all", "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }],
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          [
+            "^react",
+            "^\\u0000",
+            "^@?\\w",
+            "^[^.]",
+            "^.+/utils/",
+            "^\\.",
+            "^.+\\.scss$"
+          ]
+        ]
+      }
+    ]
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "globals": {
+    "__API_URL__": true,
+    "gapi": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "paths": ["src/js"],
+        "extensions": [".js", ".ts", ".tsx"]
+      }
+    },
+    "node": {
+      "tryExtensions": [".ts", ".tsx", ".js"]
+    }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "plugins": [
+        "@typescript-eslint",
+        "react-hooks",
+        "simple-import-sort",
+        "css-modules"
+      ],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "sourceType": "module",
+        "allowAutomaticSingleRunInference": true,
+        "project": "./tsconfig.json",
+        "warnOnUnsupportedTypeScriptVersion": false,
+        "ecmaFeatures": {
+          "jsx": true
+        }
+      },
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/explicit-member-accessibility": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "variable",
+            "format": ["camelCase", "UPPER_CASE", "PascalCase"],
+            "leadingUnderscore": "allow",
+            "trailingUnderscore": "allow"
+          },
+          {
+            "selector": "variable",
+            "format": ["UPPER_CASE"],
+            "filter": {
+              "regex": "^__",
+              "match": true
+            },
+            "prefix": ["__"],
+            "suffix": ["__"]
+          }
+        ],
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/restrict-template-expressions": [
+          "error",
+          { "allowNumber": true }
+        ],
+        "@typescript-eslint/promise-function-async": [
+          "error",
+          {
+            "allowedPromiseNames": [],
+            "checkArrowFunctions": false,
+            "checkFunctionDeclarations": true,
+            "checkFunctionExpressions": false,
+            "checkMethodDeclarations": false
+          }
+        ]
+      }
+    }
+  ]
+}
